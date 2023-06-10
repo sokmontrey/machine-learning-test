@@ -11,6 +11,9 @@ SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 class Object:
     def __init__(self):
+        self.name = ""
+        self.collision = set()
+
         self.object = None
         self.color = (255,255,255)
 
@@ -19,9 +22,11 @@ class Object:
         self.acceleration = [0,0]
         self.mass = 1
 
+        self.damp_factor = 0.0
+
     def updatePosition(self, dt):
-        self.velocity[0] += self.acceleration[0] * dt
-        self.velocity[1] += self.acceleration[1] * dt
+        self.velocity[0] = self.velocity[0] * (1-self.damp_factor) + self.acceleration[0] * dt
+        self.velocity[1] = self.velocity[1] * (1-self.damp_factor) +  self.acceleration[1] * dt
 
         self.position[0] += self.velocity[0] * dt + 0.5 * dt * dt * self.acceleration[0]
         self.position[1] += self.velocity[1] * dt + 0.5 * dt * dt * self.acceleration[1]
@@ -42,6 +47,10 @@ class Object:
         self.velocity[0] += x
         self.velocity[1] += y
 
+    def setVelocity(self, x, y):
+        self.velocity[0] = 0
+        self.velocity[1] = 0
+
     def applyForce(self, x, y):
         self.acceleration[0] += x / self.mass
         self.acceleration[1] += y / self.mass
@@ -61,9 +70,17 @@ class Object:
     def draw(self):
         pygame.draw.rect(SCREEN, self.color, self.object)
 
+    def collide(self, other):
+        self.collision.add(other.name)
+
+    def notCollide(self, other):
+        if other.name in self.collision:
+            self.collision.remove(other.name)
+
 class Platform(Object):
     def __init__(self):
         Object.__init__(self)
+        self.name = "ground"
 
         self.thickness = 50
         self.top = SCREEN_HEIGHT - self.thickness 
@@ -74,20 +91,28 @@ class Platform(Object):
             SCREEN_WIDTH, self.thickness
         ))
 
+        self.friction = 0.1
+
     def checkCollision(self, other):
         if other.object.colliderect(self.object):
             other.setPosition(other.getX(), self.top - other.size)
             v = other.getVelocity()
-            other.applyVelocity(0, -v[1])
-        else: return None
+            other.applyVelocity(-v[0] * self.friction, -v[1])
+
+            other.collide(self)
+        else: 
+            other.notCollide(self)
 
 
 class Player(Object):
     def __init__(self, x, y):
         Object.__init__(self)
+        self.name = "player"
 
         self.position[0] = x
         self.position[1] = y
+
+        self.jump_force = 550 
 
         self.size = 50
         self.color = (100, 200, 100)
@@ -96,6 +121,10 @@ class Player(Object):
             x, y,
             self.size, self.size
         ))
+
+    def jump(self):
+        if "ground" in self.collision:
+            self.applyForce(0, -1 * self.jump_force)
 
 platform = Platform()
 player = Player(200, 100)
@@ -110,17 +139,18 @@ while run:
     if key[pygame.K_q]:
         run = False
 
-    s = 1
-    if key[pygame.K_a]:
-        player.applyVelocity(-1 * s, 0)
-    elif key[pygame.K_d]:
-        player.applyVelocity(1 * s, 0)
+    # s = 1
+    # if key[pygame.K_a]:
+    #     player.applyVelocity(-1 * s, 0)
+    # elif key[pygame.K_d]:
+    #     player.applyVelocity(1 * s, 0)
     # elif key[pygame.K_w]:
     #     player.applyVelocity(0, -1 * s)
     # elif key[pygame.K_s]:
     #     player.applyVelocity(0, 1 * s)
-    else:
-        player.applyVelocity(0, 0)
+
+    if key[pygame.K_SPACE]:
+        player.jump()
 
     player.applyGravity()
     player.updatePosition(0.1)
