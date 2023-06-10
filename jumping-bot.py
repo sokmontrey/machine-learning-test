@@ -126,10 +126,37 @@ class Player(Object):
         if "ground" in self.collision:
             self.applyForce(0, -1 * self.jump_force)
 
+class Obstacle(Object):
+    def __init__(self, x, y):
+        Object.__init__(self)
+        self.name = "obstacle"
+
+        self.position[0] = x
+        self.position[1] = y
+
+        self.size = 50
+        self.color = (250, 100, 100)
+
+        self.object = pygame.Rect((
+            x, y,
+            self.size, self.size
+        ))
+
+    def checkCollision(self, other):
+        if other.object.colliderect(self.object):
+            self.color = (255,255,255)
+            other.collide(self)
+        else: 
+            other.notCollide(self)
+            self.color = (250,100,100)
+
 platform = Platform()
-player = Player(200, 100)
+player = Player(600, 100)
+
+obstacle = Obstacle(0, 500)
 
 run = True
+dt = 0.1
 while run:
     clock.tick(60)
     SCREEN.fill((20,20,20))
@@ -153,12 +180,20 @@ while run:
         player.jump()
 
     player.applyGravity()
-    player.updatePosition(0.1)
+    player.updatePosition(dt)
+
+    if obstacle.getX() > SCREEN_WIDTH:
+        obstacle.setPosition(0, obstacle.getY())
+    else:
+        obstacle.setPosition(obstacle.getX() + 5, obstacle.getY())
+    obstacle.updatePosition(dt)
 
     platform.checkCollision(player)
+    obstacle.checkCollision(player)
 
     platform.draw()
     player.draw()
+    obstacle.draw()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
