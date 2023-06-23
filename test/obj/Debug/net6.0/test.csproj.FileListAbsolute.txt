@@ -1,0 +1,15 @@
+D:\sythat-sokmontrey\project\machine-learning-test\test\obj\Debug\net6.0\test.csproj.AssemblyReference.cache
+D:\sythat-sokmontrey\project\machine-learning-test\test\obj\Debug\net6.0\test.GeneratedMSBuildEditorConfig.editorconfig
+D:\sythat-sokmontrey\project\machine-learning-test\test\obj\Debug\net6.0\test.AssemblyInfoInputs.cache
+D:\sythat-sokmontrey\project\machine-learning-test\test\obj\Debug\net6.0\test.AssemblyInfo.cs
+D:\sythat-sokmontrey\project\machine-learning-test\test\obj\Debug\net6.0\test.csproj.CoreCompileInputs.cache
+D:\sythat-sokmontrey\project\machine-learning-test\test\bin\Debug\net6.0\test.exe
+D:\sythat-sokmontrey\project\machine-learning-test\test\bin\Debug\net6.0\test.deps.json
+D:\sythat-sokmontrey\project\machine-learning-test\test\bin\Debug\net6.0\test.runtimeconfig.json
+D:\sythat-sokmontrey\project\machine-learning-test\test\bin\Debug\net6.0\test.dll
+D:\sythat-sokmontrey\project\machine-learning-test\test\bin\Debug\net6.0\test.pdb
+D:\sythat-sokmontrey\project\machine-learning-test\test\obj\Debug\net6.0\test.dll
+D:\sythat-sokmontrey\project\machine-learning-test\test\obj\Debug\net6.0\refint\test.dll
+D:\sythat-sokmontrey\project\machine-learning-test\test\obj\Debug\net6.0\test.pdb
+D:\sythat-sokmontrey\project\machine-learning-test\test\obj\Debug\net6.0\test.genruntimeconfig.cache
+D:\sythat-sokmontrey\project\machine-learning-test\test\obj\Debug\net6.0\ref\test.dll
