@@ -107,9 +107,9 @@ model.save('./cnn/flowers.h5')
 
 print("Saved model")
 
-final_eval = model.evaluate_generator(test_ds)
-print("Test Loss: ", final_eval[0])
-print("Test Accuracy: ", final_eval[1])
+# final_eval = model.evaluate_generator(test_ds)
+# print("Test Loss: ", final_eval[0])
+# print("Test Accuracy: ", final_eval[1])
 
 loss = history.history['loss']
 val_loss = history.history['val_loss']
